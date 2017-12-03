@@ -49,7 +49,14 @@ public class RecoController {
         String aBody[] = new String[5];
         for(int i=0;i<5;i++) {
             Entity entity = it.next();
-            if(i == 0) git
+            if(i == 0) {
+                frame = "<div style=\"overflow:hidden;float:right;height:100%;width:35%;\">" +
+                        "<iframe id=\"show\" seamless scrolling=\"yes\"" +
+                        "style=\"margin:0;padding:0;float:left;height:104%;width:104%;border:none;\" " +
+                        "src=\"" +
+                        entity.urlPath() +
+                        "\"></iframe></div>";
+            }
             title[i] = entity.refSoTitle();
             qBody[i] = entity.refSoQuestionBody();
             aBody[i] = entity.refSoAnswerBody();
