@@ -71,7 +71,7 @@ public class TrainMethodPool {
                     e.printStackTrace();
                 }
             });
-            System.out.println(methodMap.get("Method: java.lang.StringBuilder.toString()"));
+            //System.out.println(methodMap.get("Method: java.lang.StringBuilder.toString()"));
             writer.close();
             writer2.close();
         } catch (Exception e) {
