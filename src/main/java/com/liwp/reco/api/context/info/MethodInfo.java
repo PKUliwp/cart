@@ -2,7 +2,9 @@ package com.liwp.reco.api.context.info;
 
 import org.eclipse.jdt.core.dom.IMethodBinding;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -27,7 +29,7 @@ public class MethodInfo {
     public String paramString;
     public Set<String> paramTypes = new HashSet<String>();
     public Set<String> variableTypes = new HashSet<String>();
-    public Set<IMethodBinding> methodCalls = new HashSet<IMethodBinding>();
+    public List<IMethodBinding> methodCalls = new ArrayList<>();
     public Set<String> fieldUsesSet = new HashSet<String>();
     public Set<String> throwSet = new HashSet<String>();
 

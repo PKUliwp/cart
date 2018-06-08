@@ -1,5 +1,6 @@
 package com.liwp.reco.api.context;
 
+import com.liwp.reco.api.context.pool.TrainMethodPool;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.dom.AST;
@@ -15,10 +16,26 @@ import java.util.*;
  */
 public class TrainSourceParser {
 
-    public static void parse() {
+    public static String dirPath = "E:/test/log4j";
+    public static boolean dirs = false;
+
+    public static void doParse() {
+        if(dirs == false) {
+            parse(dirPath);
+            return;
+        }
+        File dir = new File(dirPath);
+        for(File oneFile : dir.listFiles()) {
+            System.out.println("Trying to deal with: " + oneFile.getAbsolutePath());
+            parse(oneFile.getAbsolutePath());
+            System.out.println(TrainMethodPool.methodBlocks.size());
+        }
+    }
+
+    public static void parse(String path) {
         ASTParser parser = ASTParser.newParser(AST.JLS8);
         parser.setKind(ASTParser.K_COMPILATION_UNIT);
-        Collection<File> javaFiles = FileUtils.listFiles(new File("/Users/liwp/Desktop/lucene/src"), new String[]{"java"}, true);
+        Collection<File> javaFiles = FileUtils.listFiles(new File(path), new String[]{"java"}, true);
         Set<String> srcPathSet = new HashSet<>();
         Set<String> srcFolderSet = new HashSet<>();
         for (File javaFile : javaFiles) {

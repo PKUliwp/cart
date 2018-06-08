@@ -46,4 +46,5 @@ public abstract class Entity implements Comparable<Entity>{
     public int compareTo(Entity e) {
         return e.getTimes().compareTo(this.getTimes());
     }
+
 }

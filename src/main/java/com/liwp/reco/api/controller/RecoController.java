@@ -51,8 +51,8 @@ public class RecoController {
             Entity entity = it.next();
             if(i == 0) {
                 frame = "<div style=\"overflow:hidden;float:right;height:100%;width:35%;\">" +
-                        "<iframe id=\"show\" seamless scrolling=\"yes\"" +
-                        "style=\"margin:0;padding:0;float:left;height:104%;width:104%;border:none;\" " +
+                        "<iframe id=\"show\" name=\"show\" seamless scrolling=\"yes\"" +
+                        "style=\"margin:0;padding:0;float:left;height:104%;width:104%;border:none;background-color:white\" " +
                         "src=\"" +
                         entity.urlPath() +
                         "\"></iframe></div>";
@@ -69,8 +69,9 @@ public class RecoController {
                     "onChange=\"javascript:document.getElementById('f" + i + "').submit();\">" +
                     "<option value=\"" + entity.urlPath() + "\">Javadoc</option>" +
                     "<option value=\"qa\">Q&A</option>" +
+                    "<option value=\"http://162.105.88.151:3000/Lucene\">Graph</option>" +
                     "</select>" +
-                    "<br/>";
+                    "<br />";
 
             prex[i] = "<div style=\"float:left;width:28%;\" >" + entity.prefix() + "<a href="+ entity.urlPath() +" target=\"show\">^</a>" +
                     "</div>";
@@ -90,11 +91,11 @@ public class RecoController {
         html = html.replaceAll( " ", "&nbsp;");
         html = html.replaceAll("<", "&lt;");
         html = html.replaceAll( ">", "&gt;");
-        html = html.replaceAll("\n","<br/>");
+        html = html.replaceAll("\n","<br />");
 
         String so = "";
         for(int i=0;i<5;i++) {
-            so += "<form id=\"f" + i +"\" method=\"post\" target=\"show\" action=\"http://localhost:9090/api/qa_show\">";
+            so += "<form id=\"f" + i +"\" method=\"post\" target=\"show\" action=\"http://162.105.88.121:9090/api/qa_show\">";
             so += "<input type=\"text\" style=\"display:none\" name=\"value\" value=\"" +
                     (title[i] +"<hr/>"+ qBody[i] +"<hr/>"+ aBody[i]).replaceAll("\"", "&quot;") +
                     "\" />";

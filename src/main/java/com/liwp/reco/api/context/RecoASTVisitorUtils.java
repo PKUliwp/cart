@@ -144,12 +144,14 @@ public class RecoASTVisitorUtils {
                 }
             }
         }
+
     }
 
     private static void parseExpression(MethodInfo methodInfo, Expression expression) {
         if (expression == null) {
             return;
-        }//System.out.println(expression.toString()+" "+Annotation.nodeClassForType(expression.getNodeType()));
+        }
+        //System.out.println(expression.toString()+" "+Annotation.nodeClassForType(expression.getNodeType()));
         if (expression.getNodeType() == ASTNode.ARRAY_INITIALIZER) {
             List<Expression> expressions = ((ArrayInitializer) expression).expressions();
             for (Expression expression2 : expressions) {
@@ -192,6 +194,15 @@ public class RecoASTVisitorUtils {
                 parseExpression(methodInfo, exp);
             parseExpression(methodInfo, ((MethodInvocation) expression).getExpression());
         }
+        if(expression.getNodeType() == ASTNode.CLASS_INSTANCE_CREATION) {
+            List<Expression> arguments = ((ClassInstanceCreation) expression).arguments();
+            IMethodBinding methodBinding = ((ClassInstanceCreation) expression).resolveConstructorBinding();
+            if (methodBinding != null)
+                methodInfo.methodCalls.add(methodBinding);
+            for (Expression exp : arguments)
+                parseExpression(methodInfo, exp);
+            parseExpression(methodInfo, ((ClassInstanceCreation) expression).getExpression());
+        }
         if (expression.getNodeType() == ASTNode.ASSIGNMENT) {
             parseExpression(methodInfo, ((Assignment) expression).getLeftHandSide());
             parseExpression(methodInfo, ((Assignment) expression).getRightHandSide());
@@ -203,6 +214,7 @@ public class RecoASTVisitorUtils {
             }
             parseExpression(methodInfo, ((QualifiedName) expression).getQualifier());
         }
+
     }
 
     private static Set<String> getTypes(Type oType) {

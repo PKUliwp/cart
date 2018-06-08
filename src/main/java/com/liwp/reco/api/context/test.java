@@ -31,17 +31,17 @@ public class test {
         TrainMethodPool trainMethodPool = new TrainMethodPool();
         TestMethodPool testMethodPool = new TestMethodPool();
 
-        TrainSourceParser.parse();
+        TrainSourceParser.doParse();
         System.out.println(trainMethodPool.methodBlocks.size());
         System.out.println(testMethodPool.methodBlocks.size());
         //trainMethodPool.build();
-        trainMethodPool.printBlocks();
-        System.out.println("2");
-        TestSourceParser.parse();
-        System.out.println("3");
-        testMethodPool.build();
-        System.out.println("4");
-        testMethodPool.predict(trainMethodPool);
+        trainMethodPool.printPackages();
+//        System.out.println("2");
+//        TestSourceParser.parse();
+//        System.out.println("3");
+//        testMethodPool.build();
+//        System.out.println("4");
+//        testMethodPool.predict(trainMethodPool);
 
 
     }
