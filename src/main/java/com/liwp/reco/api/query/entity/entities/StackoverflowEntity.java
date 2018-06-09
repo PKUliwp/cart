@@ -32,28 +32,32 @@ public class StackoverflowEntity extends Entity {
     }
 
     private void buildFromMethodNode(Node methodNode) {
-        if(methodNode.getRelationships(RelationshipType.withName("docRef")).iterator().hasNext()) {
-            Node soNode = methodNode.getRelationships(RelationshipType.withName("docRef")).iterator().next().getStartNode();
-            if(MapperUtils.checkNodeLabel(soNode, "StackOverflowQuestion")) {
-                this.setQuestionTitle(soNode.getProperty("title").toString());
-                this.setQuestionBody(soNode.getProperty("body").toString());
-                int score = -100;
-                Iterator<Relationship> it = soNode.getRelationships(RelationshipType.withName("haveSoAnswer")).iterator();
-                while(it.hasNext()) {
-                    Node answerNode = it.next().getEndNode();
-                    int oneScore = Integer.parseInt(answerNode.getProperty("score").toString());
-                    if(oneScore > score) {
-                        score = oneScore;
-                        this.setAnswerScore(score);
-                        this.setAnswerBody(answerNode.getProperty("body").toString());
+        Iterator<Relationship> itr = methodNode.getRelationships(RelationshipType.withName("codeMention")).iterator();
+        while(itr.hasNext()) {
+            Node soNode = itr.next().getStartNode();
+            if(MapperUtils.checkNodeLabel(soNode, "StackOverflow")) {
+                if (MapperUtils.checkNodeLabel(soNode, "StackOverflowQuestion")) {
+                    this.setQuestionTitle(soNode.getProperty("title").toString());
+                    this.setQuestionBody(soNode.getProperty("body").toString());
+                    int score = -100;
+                    Iterator<Relationship> it = soNode.getRelationships(RelationshipType.withName("haveSoAnswer")).iterator();
+                    while (it.hasNext()) {
+                        Node answerNode = it.next().getEndNode();
+                        int oneScore = Integer.parseInt(answerNode.getProperty("score").toString());
+                        if (oneScore > score) {
+                            score = oneScore;
+                            this.setAnswerScore(score);
+                            this.setAnswerBody(answerNode.getProperty("body").toString());
+                        }
                     }
+                } else {
+                    this.setAnswerScore(Integer.parseInt(soNode.getProperty("score").toString()));
+                    this.setAnswerBody(soNode.getProperty("body").toString());
+                    Node questionNode = soNode.getRelationships(RelationshipType.withName("haveSoAnswer")).iterator().next().getStartNode();
+                    this.setQuestionTitle(questionNode.getProperty("title").toString());
+                    this.setQuestionBody(questionNode.getProperty("body").toString());
                 }
-            } else {
-                this.setAnswerScore(Integer.parseInt(soNode.getProperty("score").toString()));
-                this.setAnswerBody(soNode.getProperty("body").toString());
-                Node questionNode = soNode.getRelationships(RelationshipType.withName("haveSoAnswer")).iterator().next().getStartNode();
-                this.setQuestionTitle(questionNode.getProperty("title").toString());
-                this.setQuestionBody(questionNode.getProperty("body").toString());
+                break;
             }
         }
     }

@@ -9,8 +9,8 @@ import java.util.*;
  */
 public class Calculator {
     public static Map<Entity, Integer> calScoresFromQuerys(
-            Collection<String> querys, Map<String,
-            Map<Entity, Integer>> wordToEntityMap) {
+            Collection<String> querys,
+            Map<String, Map<Entity, Integer>> wordToEntityMap) {
         Map<Entity, Integer> entityScores = new HashMap<>();
         for(String query : querys) {
             if(!wordToEntityMap.containsKey(query)) {

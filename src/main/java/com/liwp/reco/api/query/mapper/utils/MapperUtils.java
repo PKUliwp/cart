@@ -58,11 +58,13 @@ public class MapperUtils {
 
     public static Collection<MethodEntity> getRefMethods(Node node) {
         Collection<MethodEntity> methodEntities = new ArrayList<>();
-        node.getRelationships(RelationshipType.withName("docRef")).forEach(relationship -> {
-            Node srcNode = relationship.getEndNode();
-            if(srcNode.getProperties("belongTo").size() > 0) {
-                MethodEntity methodEntity = buildMethod(srcNode);
-                methodEntities.add(methodEntity);
+        node.getRelationships(RelationshipType.withName("codeMention")).forEach(relationship -> {
+            if(checkNodeLabel(relationship.getStartNode(), "StackOverflowQuestion") || checkNodeLabel(relationship.getStartNode(), "StackOverflowAnswer")) {
+                Node srcNode = relationship.getEndNode();
+                if (checkNodeLabel(srcNode, "Method")) {
+                    MethodEntity methodEntity = buildMethod(srcNode);
+                    methodEntities.add(methodEntity);
+                }
             }
         });
         return methodEntities;
@@ -70,11 +72,13 @@ public class MapperUtils {
 
     public static Collection<ClassEntity> getRefClasses(Node node) {
         Collection<ClassEntity> classEntities = new ArrayList<>();
-        node.getRelationships(RelationshipType.withName("docRef")).forEach(relationship -> {
-            Node srcNode = relationship.getEndNode();
-            if(checkNodeLabel(srcNode, "Class")){
-                ClassEntity classEntity = buildClass(srcNode);
-                classEntities.add(classEntity);
+        node.getRelationships(RelationshipType.withName("codeMention")).forEach(relationship -> {
+            if(checkNodeLabel(relationship.getStartNode(), "StackOverflowQuestion") || checkNodeLabel(relationship.getStartNode(), "StackOverflowAnswer")) {
+                Node srcNode = relationship.getEndNode();
+                if (checkNodeLabel(srcNode, "Class")) {
+                    ClassEntity classEntity = buildClass(srcNode);
+                    classEntities.add(classEntity);
+                }
             }
         });
         return classEntities;
@@ -82,11 +86,13 @@ public class MapperUtils {
 
     public static Collection<InterfaceEntity> getRefInterfaces(Node node) {
         Collection<InterfaceEntity> interfaceEntities = new ArrayList<>();
-        node.getRelationships(RelationshipType.withName("docRef")).forEach(relationship -> {
-            Node srcNode = relationship.getEndNode();
-            if(checkNodeLabel(srcNode, "Interface")) {
-                InterfaceEntity interfaceEntity = buildInterface(srcNode);
-                interfaceEntities.add(interfaceEntity);
+        node.getRelationships(RelationshipType.withName("codeMention")).forEach(relationship -> {
+            if(checkNodeLabel(relationship.getStartNode(), "StackOverflowQuestion") || checkNodeLabel(relationship.getStartNode(), "StackOverflowAnswer")) {
+                Node srcNode = relationship.getEndNode();
+                if (checkNodeLabel(srcNode, "Interface")) {
+                    InterfaceEntity interfaceEntity = buildInterface(srcNode);
+                    interfaceEntities.add(interfaceEntity);
+                }
             }
         });
         return interfaceEntities;

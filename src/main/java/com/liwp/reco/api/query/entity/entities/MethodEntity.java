@@ -5,7 +5,9 @@ import com.liwp.reco.api.query.factory.StaticValueFactory;
 import com.liwp.reco.api.query.mapper.utils.MapperUtils;
 import lombok.Getter;
 import lombok.Setter;
+import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.RelationshipType;
 
 import java.util.Arrays;
 
@@ -88,11 +90,16 @@ public class MethodEntity extends Entity {
     }
 
     private void buildFromNode(Node node) {
-        this.setBelongTo(node.getProperty("belongTo").toString());
+        try {
+            this.setBelongTo(node.getSingleRelationship(RelationshipType.withName("haveMethod"), Direction.BOTH).getStartNode().getProperty("fullName").toString());
+        } catch (Exception e) {
+            //e.printStackTrace();
+            this.setBelongTo("");
+        }
         this.setName(node.getProperty("name").toString());
-        this.setRt(node.getProperty("rt").toString());
-        this.setAbsoluteName(MapperUtils.getMethodName(node));
-        this.setParams(node.getProperty("params").toString());
+        this.setRt(node.getProperty("returnType").toString());
+        this.setAbsoluteName(this.belongTo + "." + this.name);
+        this.setParams(node.getProperty("paramType").toString());
         this.setComment(node.getProperty("comment").toString());
         this.refSoEntity = new StackoverflowEntity();
         this.refSoEntity.build(node);

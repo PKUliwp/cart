@@ -39,6 +39,7 @@ public class RecoController {
         if(results.size() < 5) {
             results = reco.recommend("index");
         }
+        System.out.println(results.size());
         Iterator<Entity> it = results.iterator();
 
         String frame = "";
@@ -73,8 +74,7 @@ public class RecoController {
                     "</select>" +
                     "<br />";
 
-            prex[i] = "<div style=\"float:left;width:28%;\" >" + entity.prefix() + "<a href="+ entity.urlPath() +" target=\"show\">^</a>" +
-                    "</div>";
+            prex[i] = "<div style=\"float:left;width:28%;\" >" + entity.prefix() + "</div>";
         }
 
 
