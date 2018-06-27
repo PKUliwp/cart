@@ -2,7 +2,6 @@ package com.liwp.reco.api.controller;
 
 import com.liwp.reco.api.query.entity.Entity;
 import com.liwp.reco.api.query.reco.Recommendation;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +13,6 @@ import java.util.Iterator;
 /**
  * Created by liwp on 2017/6/30.
  */
-@Slf4j
 @RestController
 public class RecoController {
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
