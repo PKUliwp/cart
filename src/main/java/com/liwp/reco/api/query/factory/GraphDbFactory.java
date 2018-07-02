@@ -19,55 +19,51 @@ import java.io.File;
 @Component
 public class GraphDbFactory {
 
-    private String dbPath = "I:\\Graph-Lucene";
+    @Value("${db.path}")
+    private String dbPath;
 
-    private GraphDbFactory() {
-
+    public GraphDatabaseService builder() {
+        return new GraphDatabaseFactory().newEmbeddedDatabase(new File(dbPath));
     }
 
-    public static GraphDatabaseService builder() {
-        GraphDbFactory factory = new GraphDbFactory();
-        return new GraphDatabaseFactory().newEmbeddedDatabase(new File(factory.dbPath));
-    }
-
-    public static int refNum = 0;
-    public static int methodNum = 0;
-    public static void main(String args[]) {
-        GraphDatabaseService db = builder();
-        try(Transaction tx = db.beginTx()) {
-            System.out.println(db.getAllNodes().stream().count());
-            db.getAllRelationshipTypes().stream().forEach(relationshipType -> {
-                System.out.println(relationshipType);
-            });
-//            db.getAllNodes().stream().forEach(node -> {
-//                if(MapperUtils.checkNodeLabel(node, "StackOverflowQuestion")) {
-//                    node.getAllProperties().forEach((name, property) -> {
-//                        System.out.println(name);
-//                    });
+//    public static int refNum = 0;
+//    public static int methodNum = 0;
+//    public static void main(String args[]) {
+//        GraphDatabaseService db = builder();
+//        try(Transaction tx = db.beginTx()) {
+//            System.out.println(db.getAllNodes().stream().count());
+//            db.getAllRelationshipTypes().stream().forEach(relationshipType -> {
+//                System.out.println(relationshipType);
+//            });
+////            db.getAllNodes().stream().forEach(node -> {
+////                if(MapperUtils.checkNodeLabel(node, "StackOverflowQuestion")) {
+////                    node.getAllProperties().forEach((name, property) -> {
+////                        System.out.println(name);
+////                    });
+////                }
+////            });
+//            db.getAllRelationships().stream().forEach(relationship -> {
+//                if(relationship.getType().equals(RelationshipType.withName("codeMention"))) {
+//                    refNum++;
+////                    relationship.getStartNode().getLabels().forEach(label -> {
+////                        System.out.println(label);
+////                    });
+//
+//                    if(MapperUtils.checkNodeLabel(relationship.getEndNode(), "Method")) {
+//                        //System.out.println(relationship.getEndNode().getProperty("params"));
+//                        methodNum++;
+//                    }
+//
 //                }
 //            });
-            db.getAllRelationships().stream().forEach(relationship -> {
-                if(relationship.getType().equals(RelationshipType.withName("codeMention"))) {
-                    refNum++;
-//                    relationship.getStartNode().getLabels().forEach(label -> {
-//                        System.out.println(label);
-//                    });
-
-                    if(MapperUtils.checkNodeLabel(relationship.getEndNode(), "Method")) {
-                        //System.out.println(relationship.getEndNode().getProperty("params"));
-                        methodNum++;
-                    }
-
-                }
-            });
-            db.getAllLabels().stream().forEach(label -> {
-                System.out.println(label);
-            });
-
-            tx.success();
-        }
-        System.out.println(refNum);
-        System.out.println(methodNum);
-    }
+//            db.getAllLabels().stream().forEach(label -> {
+//                System.out.println(label);
+//            });
+//
+//            tx.success();
+//        }
+//        System.out.println(refNum);
+//        System.out.println(methodNum);
+//    }
 
 }

@@ -8,18 +8,21 @@ import com.liwp.reco.api.query.mapper.mappers.ClassMapper;
 import com.liwp.reco.api.query.mapper.mappers.InterfaceMapper;
 import com.liwp.reco.api.query.mapper.mappers.MethodMapper;
 import com.liwp.reco.api.query.mapper.mappers.WordToRefMapper;
+import com.sun.corba.se.impl.orbutil.graph.Graph;
 import org.neo4j.graphdb.GraphDatabaseService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
+@Component
 public class MapFactory {
 
-    private MapFactory() {
+    @Autowired
+    private GraphDbFactory graphDbFactory;
 
-    }
-
-    public static Map<String, Map<Entity, Integer>> buildAndGetWordToRefMap() {
-        GraphDatabaseService graphDb = GraphDbFactory.builder();
+    public Map<String, Map<Entity, Integer>> buildAndGetWordToRefMap() {
+        GraphDatabaseService graphDb = graphDbFactory.builder();
         WordToRefMapper wordToRefMapper = new WordToRefMapper(graphDb);
         wordToRefMapper.build();
         Map<String, Map<Entity, Integer>> wordToMethodMap = wordToRefMapper.getWordToMethodMap();
@@ -27,8 +30,8 @@ public class MapFactory {
         return wordToMethodMap;
     }
 
-    public static Map<MethodEntity, Integer> buildAndGetMethodMap() {
-        GraphDatabaseService graphDb = GraphDbFactory.builder();
+    public Map<MethodEntity, Integer> buildAndGetMethodMap() {
+        GraphDatabaseService graphDb = graphDbFactory.builder();
         MethodMapper methodMapper = new MethodMapper(graphDb);
         methodMapper.build();
         Map<MethodEntity, Integer> methodMap = methodMapper.getMethodMap();
@@ -36,8 +39,8 @@ public class MapFactory {
         return methodMap;
     }
 
-    public static Map<InterfaceEntity, Integer> buildAndGetInterfaceMap() {
-        GraphDatabaseService graphDb = GraphDbFactory.builder();
+    public Map<InterfaceEntity, Integer> buildAndGetInterfaceMap() {
+        GraphDatabaseService graphDb = graphDbFactory.builder();
         InterfaceMapper interfaceMapper = new InterfaceMapper(graphDb);
         interfaceMapper.build();
         Map<InterfaceEntity, Integer> interfaceMap = interfaceMapper.getInterfaceMap();
@@ -45,8 +48,8 @@ public class MapFactory {
         return interfaceMap;
     }
 
-    public static Map<ClassEntity, Integer> buildAndGetClassMap() {
-        GraphDatabaseService graphDb = GraphDbFactory.builder();
+    public Map<ClassEntity, Integer> buildAndGetClassMap() {
+        GraphDatabaseService graphDb = graphDbFactory.builder();
         ClassMapper classMapper = new ClassMapper(graphDb);
         classMapper.build();
         Map<ClassEntity, Integer> classMap = classMapper.getClassMap();

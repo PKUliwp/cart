@@ -7,6 +7,7 @@ import com.liwp.reco.api.query.entity.entities.InterfaceEntity;
 import com.liwp.reco.api.query.entity.entities.MethodEntity;
 import lombok.Getter;
 import com.liwp.reco.api.query.factory.MapFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -26,11 +27,12 @@ public class Recommendation {
 
     private Set<Entity> entityScores;
 
-    public Recommendation() {
-        wordToEntityMap = MapFactory.buildAndGetWordToRefMap();
-        methodMap = MapFactory.buildAndGetMethodMap();
-        classMap = MapFactory.buildAndGetClassMap();
-        interfaceMap = MapFactory.buildAndGetInterfaceMap();
+    @Autowired
+    public Recommendation(MapFactory mapFactory) {
+        wordToEntityMap = mapFactory.buildAndGetWordToRefMap();
+        methodMap = mapFactory.buildAndGetMethodMap();
+        classMap = mapFactory.buildAndGetClassMap();
+        interfaceMap = mapFactory.buildAndGetInterfaceMap();
     }
 
     public Collection<Entity> recommend(String queryLine) {
@@ -43,12 +45,12 @@ public class Recommendation {
         return entityScores;
     }
 
-    public static void main(String args[]) {
-        Recommendation reco = new Recommendation();
-        String s = "index  ";
-        reco.recommend(s);
-        //System.out.println(reco.getMethodMap().size());
-        //System.out.println(reco.getClassMap().size());
-        //System.out.println(reco.getInterfaceMap().size());
-    }
+//    public static void main(String args[]) {
+//        Recommendation reco = new Recommendation();
+//        String s = "index  ";
+//        reco.recommend(s);
+//        //System.out.println(reco.getMethodMap().size());
+//        //System.out.println(reco.getClassMap().size());
+//        //System.out.println(reco.getInterfaceMap().size());
+//    }
 }

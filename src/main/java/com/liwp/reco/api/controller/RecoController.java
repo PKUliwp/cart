@@ -3,6 +3,7 @@ package com.liwp.reco.api.controller;
 import com.liwp.reco.api.query.entity.Entity;
 import com.liwp.reco.api.query.reco.Recommendation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
@@ -19,6 +20,9 @@ public class RecoController {
 
     @Autowired
     private Recommendation reco;
+
+    @Value("${graph.ip}")
+    private String graphIP;
 
     @CrossOrigin
     @PostMapping("/api/index.jsp")
@@ -68,7 +72,7 @@ public class RecoController {
                     "onChange=\"javascript:document.getElementById('f" + i + "').submit();\">" +
                     "<option value=\"" + entity.urlPath() + "\">Javadoc</option>" +
                     "<option value=\"qa\">Q&A</option>" +
-                    "<option value=\"http://162.105.88.151:3000/Lucene\">Graph</option>" +
+                    "<option value=\"http://" + graphIP + ":3000/Lucene\">Graph</option>" +
                     "</select>" +
                     "<br />";
 
@@ -93,7 +97,7 @@ public class RecoController {
 
         String so = "";
         for(int i=0;i<5;i++) {
-            so += "<form id=\"f" + i +"\" method=\"post\" target=\"show\" action=\"http://162.105.88.121:9090/api/qa_show\">";
+            so += "<form id=\"f" + i +"\" method=\"post\" target=\"show\" action=\"http://localhost:9090/api/qa_show\">";
             so += "<input type=\"text\" style=\"display:none\" name=\"value\" value=\"" +
                     (title[i] +"<hr/>"+ qBody[i] +"<hr/>"+ aBody[i]).replaceAll("\"", "&quot;") +
                     "\" />";
